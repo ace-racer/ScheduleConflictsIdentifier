@@ -1,6 +1,6 @@
 """The input processor - Read from the CSV and process the subjects by the dates"""
 import pandas as pd
-from datetime import datetime
+from OutputProcessor import OutputProcessor
 
 
 class InputProcessor:
@@ -39,16 +39,31 @@ class InputProcessor:
 
                     # Get the date object for each of the item
                     # Details on below operation here: https://stackoverflow.com/questions/39992411/to-datetime-value-error-at-least-that-year-month-day-must-be-specified-pand
-                    course_dates = pd.to_datetime(course_dates_df.stack(), format='%d-%m-%Y').unstack()   
+                    course_dates = pd.to_datetime(course_dates_df.stack(), format='%d-%m-%Y').unstack()  
+                    print(course_dates[:]) 
 
                     # Get the course dates with the row number
-                    # course_dates_with_row = [(course_date, row) for ]              
+                    course_dates_with_row_list = []
+                    for row_number, row in course_dates.iterrows():
+                        # print("Row number: " + str(row_number))
+                        for column_name in course_dates.columns.values:
+                            # print("Column name: " + column_name)
+                            date_value = row[column_name]
 
-                    print(course_dates[:])
+                            if not pd.isnull(date_value):
+                                # print("Date:{0}, Row:{1}".format(date_value, row_number))
+                                course_dates_with_row_list.append((date_value, row_number))
+
+                   
+                    course_dates_with_row_list = sorted(course_dates_with_row_list, key = lambda item: item[0])
+                    # print(course_dates_with_row_list[:])
+                    op = OutputProcessor("test.csv")
+                    op.generate_output(course_dates_with_row_list, df)
                 else:
                     raise ValueError("The input file must be a CSV file")
             except Exception as e:
                 print("An exception occurred while processing the file. Details: " + str(e))
+                raise
         else:
             raise ValueError("No input file location is specified")
                 
