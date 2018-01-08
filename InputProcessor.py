@@ -1,6 +1,6 @@
 """The input processor - Read from the CSV and process the subjects by the dates"""
 import pandas as pd
-import Constants
+from datetime import datetime
 
 
 class InputProcessor:
@@ -28,14 +28,23 @@ class InputProcessor:
                     #Get the column numbers of the columns which only contain digit
                     column_names = df.columns.values
                     print("Column names type: " + str(type(column_names)))
-                    column_positions = [position for position, column_name in enumerate(column_names) if str(column_name).isdigit()]
-                    sorted(column_positions)
-                    inclusive_start = column_positions[0]
-                    inclusive_end = column_positions[-1]
-                    print("Date values start from {0} and end at {1}".format(inclusive_start, inclusive_end))
+                    required_column_names = [column_name for column_name in column_names if str(column_name).isdigit()]                   
+                    required_column_start = required_column_names[0]
+                    required_column_end = required_column_names[-1]
+                    print("Date values start from {0} and end at {1}".format(required_column_start, required_column_end))
                     print(column_names)
 
-                    print(df[:10])
+                    # Get the dates in the range
+                    course_dates_df = df.loc[:, required_column_start: required_column_end]
+
+                    # Get the date object for each of the item
+                    # Details on below operation here: https://stackoverflow.com/questions/39992411/to-datetime-value-error-at-least-that-year-month-day-must-be-specified-pand
+                    course_dates = pd.to_datetime(course_dates_df.stack(), format='%d-%m-%Y').unstack()   
+
+                    # Get the course dates with the row number
+                    # course_dates_with_row = [(course_date, row) for ]              
+
+                    print(course_dates[:])
                 else:
                     raise ValueError("The input file must be a CSV file")
             except Exception as e:
