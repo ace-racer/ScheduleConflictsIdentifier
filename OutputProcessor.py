@@ -6,11 +6,7 @@ import Constants
 
 
 class OutputProcessor:
-    """Contains methods to generate the output"""
-    def __init__(self, file_location):
-        self._file_location = file_location
-
-    
+    """Contains methods to generate the output"""   
     def generate_output(self, dates_with_row, records_data_frame, details_column_names):
         """Generates the output in the mentioned file"""
         try:

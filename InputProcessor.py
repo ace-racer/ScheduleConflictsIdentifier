@@ -57,7 +57,7 @@ class InputProcessor:
 
                    
                     course_dates_with_row_list = sorted(course_dates_with_row_list, key = lambda item: item[0])                    
-                    op = OutputProcessor("test.csv")
+                    op = OutputProcessor()
                     op.generate_output(course_dates_with_row_list, df, details_column_names)
                 else:
                     raise ValueError("The input file must be a CSV file")
