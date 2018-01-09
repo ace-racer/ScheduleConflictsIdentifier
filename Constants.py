@@ -1,1 +1,2 @@
 DATE_FORMAT = "%d-%m-%Y"
+OUTPUT_FOLDER_NAME = "Outputs"
