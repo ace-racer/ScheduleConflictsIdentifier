@@ -1,6 +1,7 @@
 """The input processor - Read from the CSV and process the subjects by the dates"""
 import pandas as pd
 from OutputProcessor import OutputProcessor
+import Constants
 
 
 class InputProcessor:
@@ -43,24 +44,19 @@ class InputProcessor:
 
                     # Get the date object for each of the item
                     # Details on below operation here: https://stackoverflow.com/questions/39992411/to-datetime-value-error-at-least-that-year-month-day-must-be-specified-pand
-                    course_dates = pd.to_datetime(course_dates_df.stack(), format='%d-%m-%Y').unstack()  
+                    course_dates = pd.to_datetime(course_dates_df.stack(), format = Constants.DATE_FORMAT).unstack()  
                     # print(course_dates[:]) 
 
                     # Get the course dates with the row number
                     course_dates_with_row_list = []
-                    for row_number, row in course_dates.iterrows():
-                        # print("Row number: " + str(row_number))
-                        for column_name in course_dates.columns.values:
-                            # print("Column name: " + column_name)
+                    for row_number, row in course_dates.iterrows():                        
+                        for column_name in course_dates.columns.values:                            
                             date_value = row[column_name]
-
-                            if not pd.isnull(date_value):
-                                # print("Date:{0}, Row:{1}".format(date_value, row_number))
+                            if not pd.isnull(date_value):                                
                                 course_dates_with_row_list.append((date_value, row_number))
 
                    
-                    course_dates_with_row_list = sorted(course_dates_with_row_list, key = lambda item: item[0])
-                    # print(course_dates_with_row_list[:])
+                    course_dates_with_row_list = sorted(course_dates_with_row_list, key = lambda item: item[0])                    
                     op = OutputProcessor("test.csv")
                     op.generate_output(course_dates_with_row_list, df, details_column_names)
                 else:

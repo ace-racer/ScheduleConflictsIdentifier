@@ -11,13 +11,20 @@ class OutputProcessor:
     def generate_output(self, dates_with_row, records_data_frame, details_column_names):
         """Generates the output in the mentioned file"""
         output_rows = []
-        for date_with_row in dates_with_row:
-            records_for_row = records_data_frame.loc[int(date_with_row[1]), :]
-            output_rows.append(' '.join(str(records_for_row)))
+        for date_with_row in dates_with_row:            
+            
+            row_number = int(date_with_row[1])
+            item_date = date_with_row[0]
 
-        #for output_row in output_rows:
-            #print(output_row)
+            output_row = [item_date]
+            records_for_row = records_data_frame.loc[row_number][details_column_names]
+            for record in records_for_row.values:
+                output_row.append(record)
+            output_rows.append(output_row)
+            
 
-        for date, id in dates_with_row:
-            print("Id: {0} - Date: {1}".format(id, date))
+        for row in output_rows:
+            for item in row:
+                print(item, end=' ')
+            print()
 

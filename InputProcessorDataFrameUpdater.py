@@ -1,6 +1,7 @@
 """The input processor - Read from the CSV and process the subjects by the dates"""
 import pandas as pd
 import datetime as dt
+import Constants
 from OutputProcessor import OutputProcessor
 
 
@@ -56,6 +57,6 @@ class InputProcessorDataFrameUpdater:
     def convert_to_date_time(self, candidate_to_convert):
         """Convert a candidate string to a Python date time object"""
         if candidate_to_convert and not pd.isnull(candidate_to_convert):
-            return dt.datetime.strptime(str(candidate_to_convert), '%d-%m-%Y')
+            return dt.datetime.strptime(str(candidate_to_convert), Constants.DATE_FORMAT)
         else:
             return None
