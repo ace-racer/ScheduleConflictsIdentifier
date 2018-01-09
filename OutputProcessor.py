@@ -11,12 +11,19 @@ class OutputProcessor:
         """Generates the output in the mentioned file"""
         try:
             output_rows = []
+            last_date = None
             for date_with_row in dates_with_row:            
                 
                 row_number = int(date_with_row[1])
                 item_date = date_with_row[0]
 
-                output_row = [item_date]
+
+                conflict = False
+                if last_date is not None and last_date == item_date:
+                    conflict = True
+
+                last_date = item_date
+                output_row = [item_date, conflict]
                 records_for_row = records_data_frame.loc[row_number][details_column_names]
                 for record in records_for_row.values:
                     output_row.append(record)
@@ -24,7 +31,7 @@ class OutputProcessor:
                 
             if not os.path.exists(Constants.OUTPUT_FOLDER_NAME):
                 os.makedirs(Constants.OUTPUT_FOLDER_NAME)
-                
+            
             output_file_location = os.path.join(Constants.OUTPUT_FOLDER_NAME, Config.OUTPUT_FILE_NAME)
             output_file_handler = open(output_file_location, "w")
 
