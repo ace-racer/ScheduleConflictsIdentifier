@@ -18,7 +18,7 @@ class InputProcessor:
                 stripped_file_location = self._file_location.strip()
                 if stripped_file_location[-4:] == ".csv":
                     # Get the data frame from the CSV
-                    df = pd.read_csv(stripped_file_location)
+                    df = pd.read_csv(stripped_file_location, encoding="latin1")
 
                     # Remove the rows for which all values are NaN's
                     df = df.dropna(axis=0,how='all')

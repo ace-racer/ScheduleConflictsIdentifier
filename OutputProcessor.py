@@ -33,18 +33,23 @@ class OutputProcessor:
                 os.makedirs(Constants.OUTPUT_FOLDER_NAME)
             
             output_file_location = os.path.join(Constants.OUTPUT_FOLDER_NAME, Config.OUTPUT_FILE_NAME)
-            output_file_handler = open(output_file_location, "w")
+            output_file_handler = open(output_file_location, "wb")
 
             # Populate the file headers for the output file
             output_file_headers = self.get_output_file_headers("Date", "Conflict with earlier item", details_column_names)
-            output_file_handler.write(", ".join(output_file_headers))
-            output_file_handler.write("\n\n")
+            output_file_text = ""
+            output_file_text += ", ".join(output_file_headers)
+            output_file_text += "\n\n"            
 
             for row in output_rows:
                 for item in row:
-                    output_file_handler.write("\"" + str(item) + "\", ")
-                output_file_handler.write("\n")
+                    cell_value = "Data not available"
+                    if not pd.isnull(item):
+                        cell_value = str(item)          
+                    output_file_text += "\"" + cell_value + "\", "
+                output_file_text += "\n"                                    
            
+            output_file_handler.write(output_file_text.encode(Constants.ENCODING))
             print("File created successfully inside the {0} folder".format(Constants.OUTPUT_FOLDER_NAME))
         except Exception as ex:
             print("An error occurred while writing the output to the file. Details: " + str(ex))
