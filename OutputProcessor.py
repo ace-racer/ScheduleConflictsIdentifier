@@ -8,7 +8,7 @@ class OutputProcessor:
         self._file_location = file_location
 
     
-    def generate_output(self, dates_with_row, records_data_frame):
+    def generate_output(self, dates_with_row, records_data_frame, details_column_names):
         """Generates the output in the mentioned file"""
         output_rows = []
         for date_with_row in dates_with_row:

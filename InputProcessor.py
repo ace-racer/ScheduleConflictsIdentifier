@@ -28,19 +28,23 @@ class InputProcessor:
                     #Get the column numbers of the columns which only contain digit
                     column_names = df.columns.values
                     print("Column names type: " + str(type(column_names)))
-                    required_column_names = [column_name for column_name in column_names if str(column_name).isdigit()]                   
-                    required_column_start = required_column_names[0]
-                    required_column_end = required_column_names[-1]
-                    print("Date values start from {0} and end at {1}".format(required_column_start, required_column_end))
-                    print(column_names)
-
+                    
+                    date_column_names = []
+                    details_column_names = []               
+                  
+                    for column_name in column_names:
+                        if str(column_name).isdigit():
+                            date_column_names.append(column_name)
+                        else:
+                            details_column_names.append(column_name)
+                   
                     # Get the dates in the range
-                    course_dates_df = df.loc[:, required_column_start: required_column_end]
+                    course_dates_df = df.loc[:][date_column_names]
 
                     # Get the date object for each of the item
                     # Details on below operation here: https://stackoverflow.com/questions/39992411/to-datetime-value-error-at-least-that-year-month-day-must-be-specified-pand
                     course_dates = pd.to_datetime(course_dates_df.stack(), format='%d-%m-%Y').unstack()  
-                    print(course_dates[:]) 
+                    # print(course_dates[:]) 
 
                     # Get the course dates with the row number
                     course_dates_with_row_list = []
@@ -58,11 +62,11 @@ class InputProcessor:
                     course_dates_with_row_list = sorted(course_dates_with_row_list, key = lambda item: item[0])
                     # print(course_dates_with_row_list[:])
                     op = OutputProcessor("test.csv")
-                    op.generate_output(course_dates_with_row_list, df)
+                    op.generate_output(course_dates_with_row_list, df, details_column_names)
                 else:
                     raise ValueError("The input file must be a CSV file")
-            except Exception as e:
-                print("An exception occurred while processing the file. Details: " + str(e))
+            except Exception as exp:
+                print("An exception occurred while processing the file. Details: " + str(exp))
                 raise
         else:
             raise ValueError("No input file location is specified")
