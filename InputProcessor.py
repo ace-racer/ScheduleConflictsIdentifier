@@ -27,8 +27,7 @@ class InputProcessor:
                     num_records = len(df.index)
 
                     #Get the column numbers of the columns which only contain digit
-                    column_names = df.columns.values
-                    print("Column names type: " + str(type(column_names)))
+                    column_names = df.columns.values                    
                     
                     date_column_names = []
                     details_column_names = []               
@@ -44,8 +43,7 @@ class InputProcessor:
 
                     # Get the date object for each of the item
                     # Details on below operation here: https://stackoverflow.com/questions/39992411/to-datetime-value-error-at-least-that-year-month-day-must-be-specified-pand
-                    course_dates = pd.to_datetime(course_dates_df.stack(), format = Constants.DATE_FORMAT).unstack()  
-                    # print(course_dates[:]) 
+                    course_dates = pd.to_datetime(course_dates_df.stack(), format = Constants.DATE_FORMAT).unstack()                      
 
                     # Get the course dates with the row number
                     course_dates_with_row_list = []
