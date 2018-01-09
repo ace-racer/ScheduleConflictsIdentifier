@@ -10,5 +10,5 @@
 6. Please follow the on screen logs in the command line to check if there are any issues with the input file parsing or the generation of the output file
 
 ### Dependencies ###
-1. Application is built using Python 3.2.X
-2. Pandas for processing of CSV files
+1. Application is built using Python 3.6.X and requires the same or above to run
+2. Pandas library for processing of CSV files

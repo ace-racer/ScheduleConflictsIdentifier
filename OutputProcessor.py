@@ -22,7 +22,9 @@ class OutputProcessor:
                     output_row.append(record)
                 output_rows.append(output_row)
                 
-            
+            if not os.path.exists(Constants.OUTPUT_FOLDER_NAME):
+                os.makedirs(Constants.OUTPUT_FOLDER_NAME)
+                
             output_file_location = os.path.join(Constants.OUTPUT_FOLDER_NAME, Config.OUTPUT_FILE_NAME)
             output_file_handler = open(output_file_location, "w")
 
