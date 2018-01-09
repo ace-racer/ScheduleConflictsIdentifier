@@ -35,6 +35,10 @@ class OutputProcessor:
             output_file_location = os.path.join(Constants.OUTPUT_FOLDER_NAME, Config.OUTPUT_FILE_NAME)
             output_file_handler = open(output_file_location, "w")
 
+            # Populate the file headers for the output file
+            output_file_headers = self.get_output_file_headers("Date", "Conflict with earlier item", details_column_names)
+            output_file_handler.write(", ".join(output_file_headers))
+            output_file_handler.write("\n\n")
 
             for row in output_rows:
                 for item in row:
@@ -47,5 +51,22 @@ class OutputProcessor:
             raise 
         finally:
              output_file_handler.close()
+
+
+    def get_output_file_headers(self, *args):
+        """Get the headers for the output CSV file as a list with each member in a quote"""
+        if args:
+            headers = []
+            for items in args:
+                if type(items) is list:
+                    for item in items:
+                        headers.append("\"" + str(item) + "\"")
+                else:
+                    headers.append("\"" + str(items) + "\"")
+            return headers 
+
+
+
+
 
 
